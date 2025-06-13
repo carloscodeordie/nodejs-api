@@ -6,9 +6,7 @@ import {
   getProducts,
   updateProduct,
 } from "./handlers/product";
-import { body } from "express-validator";
 import { handleInputErrors } from "./middleware/inputValidator";
-import { changeUpdate } from "./handlers/update";
 import {
   postProductValidators,
   postUpdatePointValidators,
@@ -16,6 +14,13 @@ import {
   putUpdatePointValidators,
   putUpdateValidators,
 } from "./modules/validator";
+import {
+  createUpdate,
+  deleteUpdate,
+  getUpdate,
+  getUpdates,
+  updateUpdate,
+} from "./handlers/update";
 
 const router = Router();
 
@@ -43,20 +48,17 @@ router.delete("/product/:id", deleteProduct);
  * Update
  */
 
-router.get("/update", (req, res) => {});
-
-router.get("/update/:id", (req, res) => {});
-
-router.post("/update", (req, res) => {});
-
+router.get("/update", getUpdates);
+router.get("/update/:id", getUpdate);
+// TODO: Add validators
+router.post("/update", createUpdate);
 router.put(
   "/update/:id",
   ...putUpdateValidators,
   handleInputErrors,
-  changeUpdate
+  updateUpdate
 );
-
-router.delete("/update/:id", (req, res) => {});
+router.delete("/update/:id", deleteUpdate);
 
 /**
  * UpdatePoint

@@ -8,7 +8,9 @@ export const putUpdateValidators = [
   body("title").optional(),
   body("body").optional(),
   body("title").optional(),
-  body("status").isIn(["IN_PROGRESS", "LIVE", "DEPRECATED", "ARCHIVED"]),
+  body("status")
+    .isIn(["IN_PROGRESS", "LIVE", "DEPRECATED", "ARCHIVED"])
+    .optional(),
   body("version").optional(),
   body("productId").optional(),
 ];

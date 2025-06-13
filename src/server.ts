@@ -12,7 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+// Protected routes
 app.use("/api", protectMiddleware, router);
+
+// Unprotected routes
 app.post("/user", createUser);
 app.post("/signin", signin);
 

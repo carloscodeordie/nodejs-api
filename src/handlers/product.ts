@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import prisma from "../modules/db";
 import { CustomError } from "../models/customError";
 import { CustomErrorEnum } from "../models/ErrorEnum";
 
-export const getProducts = async (req: Request, res: Response) => {
+export const getProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let user;
   try {
     user = await prisma.user.findUnique({
@@ -16,9 +20,8 @@ export const getProducts = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when fetching products",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when fetching products", CustomErrorEnum.PRISMA)
     );
   }
 
@@ -27,7 +30,11 @@ export const getProducts = async (req: Request, res: Response) => {
   });
 };
 
-export const getProduct = async (req: Request, res: Response) => {
+export const getProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let product;
   try {
     product = await prisma.product.findFirst({
@@ -38,9 +45,11 @@ export const getProduct = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when fetching a product by id",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError(
+        "Error when fetching a product by id",
+        CustomErrorEnum.PRISMA
+      )
     );
   }
 
@@ -49,7 +58,11 @@ export const getProduct = async (req: Request, res: Response) => {
   });
 };
 
-export const createProduct = async (req: Request, res: Response) => {
+export const createProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let product;
   try {
     product = await prisma.product.create({
@@ -60,9 +73,8 @@ export const createProduct = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when creating a product",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when creating a product", CustomErrorEnum.PRISMA)
     );
   }
 
@@ -71,7 +83,11 @@ export const createProduct = async (req: Request, res: Response) => {
   });
 };
 
-export const updateProduct = async (req: Request, res: Response) => {
+export const updateProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let product;
 
   try {
@@ -86,9 +102,8 @@ export const updateProduct = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when updating a product",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when updating a product", CustomErrorEnum.PRISMA)
     );
   }
 
@@ -97,7 +112,11 @@ export const updateProduct = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     await prisma.product.delete({
       where: {
@@ -107,9 +126,8 @@ export const deleteProduct = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when deleting a product",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when deleting a product", CustomErrorEnum.PRISMA)
     );
   }
 

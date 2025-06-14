@@ -1,10 +1,14 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import prisma from "../modules/db";
 import { Product, Update } from "@prisma/client";
 import { CustomError } from "../models/customError";
 import { CustomErrorEnum } from "../models/ErrorEnum";
 
-export const getUpdates = async (req: Request, res: Response) => {
+export const getUpdates = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let updates;
 
   try {
@@ -18,9 +22,8 @@ export const getUpdates = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when fetching updates",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when fetching updates", CustomErrorEnum.PRISMA)
     );
   }
   res.send({
@@ -28,7 +31,11 @@ export const getUpdates = async (req: Request, res: Response) => {
   });
 };
 
-export const getUpdate = async (req: Request, res: Response) => {
+export const getUpdate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let update;
 
   try {
@@ -38,9 +45,8 @@ export const getUpdate = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when fetching updates",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when fetching updates", CustomErrorEnum.PRISMA)
     );
   }
   res.send({
@@ -48,7 +54,11 @@ export const getUpdate = async (req: Request, res: Response) => {
   });
 };
 
-export const createUpdate = async (req: Request, res: Response) => {
+export const createUpdate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let product;
 
   try {
@@ -60,14 +70,13 @@ export const createUpdate = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when creating an update",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when creating an update", CustomErrorEnum.PRISMA)
     );
   }
 
   if (!product) {
-    throw new CustomError("Error product does not belongs to you");
+    next(new CustomError("Error product does not belongs to you"));
   }
 
   let update;
@@ -77,9 +86,8 @@ export const createUpdate = async (req: Request, res: Response) => {
       data: req.body,
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when creating an update",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when creating an update", CustomErrorEnum.PRISMA)
     );
   }
 
@@ -88,7 +96,11 @@ export const createUpdate = async (req: Request, res: Response) => {
   });
 };
 
-export const updateUpdate = async (req: Request, res: Response) => {
+export const updateUpdate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let products: Product[] = [];
 
   try {
@@ -102,9 +114,8 @@ export const updateUpdate = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when fetching a product",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when fetching a product", CustomErrorEnum.PRISMA)
     );
   }
 
@@ -118,7 +129,7 @@ export const updateUpdate = async (req: Request, res: Response) => {
   );
 
   if (!match) {
-    throw new CustomError("Error update does not belongs to you");
+    next(new CustomError("Error update does not belongs to you"));
   }
 
   let update;
@@ -131,9 +142,8 @@ export const updateUpdate = async (req: Request, res: Response) => {
       data: req.body,
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when changing an update",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when changing an update", CustomErrorEnum.PRISMA)
     );
   }
 
@@ -142,7 +152,11 @@ export const updateUpdate = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteUpdate = async (req: Request, res: Response) => {
+export const deleteUpdate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   let products: Product[] = [];
 
   try {
@@ -156,9 +170,8 @@ export const deleteUpdate = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when fetching a product",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when fetching a product", CustomErrorEnum.PRISMA)
     );
   }
 
@@ -172,7 +185,7 @@ export const deleteUpdate = async (req: Request, res: Response) => {
   );
 
   if (!match) {
-    throw new CustomError("Error update does not belongs to you");
+    next(new CustomError("Error update does not belongs to you"));
   }
 
   try {
@@ -182,9 +195,8 @@ export const deleteUpdate = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    throw new CustomError(
-      "Error when deleting an update",
-      CustomErrorEnum.PRISMA
+    next(
+      new CustomError("Error when deleting an update", CustomErrorEnum.PRISMA)
     );
   }
 

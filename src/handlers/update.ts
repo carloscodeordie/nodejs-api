@@ -93,9 +93,35 @@ export const updateUpdate = async (req: Request, res: Response) => {
 };
 
 export const deleteUpdate = async (req: Request, res: Response) => {
+  const products: Product[] = await prisma.product.findMany({
+    where: {
+      // @ts-ignore
+      belongsToId: req.user.id,
+    },
+    include: {
+      updates: true,
+    },
+  });
+
+  const updates = products.reduce((allUpdates: any, product) => {
+    // @ts-ignore
+    return [...allUpdates, ...product.updates];
+  }, []);
+
+  const match: Update = updates.find(
+    (update: Update) => update.id === req.params.id
+  );
+
+  if (!match) {
+    res.json({
+      message: "Error: Update is not valid",
+    });
+    return;
+  }
+
   await prisma.update.delete({
     where: {
-      id: req.params.id,
+      id: match.id,
     },
   });
 

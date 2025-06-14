@@ -81,6 +81,8 @@ export const updateProduct = async (req: Request, res: Response) => {
       },
       where: {
         id: req.params.id,
+        // @ts-ignore
+        belongsToId: req.user.id,
       },
     });
   } catch (error) {

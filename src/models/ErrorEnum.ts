@@ -1,5 +1,5 @@
 export enum CustomErrorEnum {
-  AUTH,
-  INPUT,
-  PRISMA,
+  AUTH = "Auth",
+  INPUT = "Input",
+  PRISMA = "Prisma",
 }

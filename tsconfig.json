@@ -5,6 +5,7 @@
     "strict": true,
     "lib": ["esnext"],
     "esModuleInterop": true,
-    "typeRoots": ["./src/types"]
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["jest", "node"]
   }
 }

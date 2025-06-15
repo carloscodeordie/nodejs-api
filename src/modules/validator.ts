@@ -4,6 +4,14 @@ export const putProductValidators = [body("name").isString()];
 
 export const postProductValidators = [body("name").isString()];
 
+export const createUpdateValidators = [
+  body("productId").isString(),
+  body("title").isString(),
+  body("body").isString(),
+  body("updatedAt").isString(),
+  body("asset").isString(),
+];
+
 export const putUpdateValidators = [
   body("title").optional(),
   body("body").optional(),
@@ -13,15 +21,4 @@ export const putUpdateValidators = [
     .optional(),
   body("version").optional(),
   body("productId").optional(),
-];
-
-export const postUpdatePointValidators = [
-  body("name").isString(),
-  body("description").isString(),
-  body("updateId").exists().isString(),
-];
-
-export const putUpdatePointValidators = [
-  body("name").optional().isString(),
-  body("description").optional().isString(),
 ];

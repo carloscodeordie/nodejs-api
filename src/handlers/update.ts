@@ -65,8 +65,7 @@ export const createUpdate = async (
     product = await prisma.product.findUnique({
       where: {
         id: req.body.productId,
-        // @ts-ignore
-        belongsToId: req.user.id,
+        belongsToId: req.user?.id,
       },
     });
   } catch (error) {
@@ -106,8 +105,7 @@ export const updateUpdate = async (
   try {
     products = await prisma.product.findMany({
       where: {
-        // @ts-ignore
-        belongsToId: req.user.id,
+        belongsToId: req.user?.id,
       },
       include: {
         updates: true,
@@ -162,8 +160,7 @@ export const deleteUpdate = async (
   try {
     products = await prisma.product.findMany({
       where: {
-        // @ts-ignore
-        belongsToId: req.user.id,
+        belongsToId: req.user?.id,
       },
       include: {
         updates: true,

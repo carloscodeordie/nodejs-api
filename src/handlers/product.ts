@@ -12,8 +12,7 @@ export const getProducts = async (
   try {
     user = await prisma.user.findUnique({
       where: {
-        // @ts-ignore
-        id: req.user.id,
+        id: req.user?.id,
       },
       include: {
         products: true,
@@ -40,8 +39,7 @@ export const getProduct = async (
     product = await prisma.product.findFirst({
       where: {
         id: req.params.id,
-        // @ts-ignore
-        belongsToId: req.user.id,
+        belongsToId: req.user?.id,
       },
     });
   } catch (error) {
@@ -63,12 +61,16 @@ export const createProduct = async (
   res: Response,
   next: NextFunction
 ) => {
+  if (!req.user) {
+    next(new CustomError("No valid user"));
+    return;
+  }
+
   let product;
   try {
     product = await prisma.product.create({
       data: {
         name: req.body.name,
-        // @ts-ignore
         belongsToId: req.user.id,
       },
     });
@@ -97,8 +99,7 @@ export const updateProduct = async (
       },
       where: {
         id: req.params.id,
-        // @ts-ignore
-        belongsToId: req.user.id,
+        belongsToId: req.user?.id,
       },
     });
   } catch (error) {
@@ -121,8 +122,7 @@ export const deleteProduct = async (
     await prisma.product.delete({
       where: {
         id: req.params.id,
-        // @ts-ignore
-        belongsToId: req.user.id,
+        belongsToId: req.user?.id,
       },
     });
   } catch (error) {
